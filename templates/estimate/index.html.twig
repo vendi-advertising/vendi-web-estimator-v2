@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Estimates{% endblock %}
+
+{% block body %}
+    {% if estimates %}
+        <ul>
+            {% for estimate in estimates %}
+                <li><a href="">{{ estimate.name }}</a> ({{ estimate.createdBy.email }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div><strong>No estimates found</strong></div>
+    {% endif %}
+
+    <a href="{{ path('estimate_create') }}">Create new estimate</a>
+{% endblock %}
