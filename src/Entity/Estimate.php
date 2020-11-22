@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedByTrait;
+use App\Entity\Traits\UuidAsIdTrait;
 use App\Repository\EstimateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,37 +22,34 @@ class Estimate
      * updates createdAt, updatedAt fields
      */
     use TimestampableEntity;
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use CreatedByTrait;
+    use UuidAsIdTrait;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
      */
-    private $name;
+    private string $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=LineItem::class, mappedBy="estimate", orphanRemoval=true)
+     * @ORM\Column(type="string", length=1024, nullable=true)
      */
-    private $lineItems;
+    private ?string $description;
 
     /**
-     * @var User $createdBy
-     *
-     * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
-    private $createdBy;
+    private float $defaultRate = 0;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Section::class, mappedBy="estimate")
+     */
+    private $sections;
 
     public function __construct()
     {
         $this->lineItems = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,52 +69,57 @@ class Estimate
         return $this;
     }
 
-    /**
-     * @return Collection|LineItem[]
-     */
-    public function getLineItems(): Collection
+    public function getDescription(): ?string
     {
-        return $this->lineItems;
+        return $this->description;
     }
 
-    public function addLineItem(LineItem $lineItem): self
+    public function setDescription(?string $description): self
     {
-        if (!$this->lineItems->contains($lineItem)) {
-            $this->lineItems[] = $lineItem;
-            $lineItem->setEstimate($this);
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDefaultRate(): ?string
+    {
+        return $this->defaultRate;
+    }
+
+    public function setDefaultRate(string $defaultRate): self
+    {
+        $this->defaultRate = $defaultRate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Section[]
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(Section $section): self
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections[] = $section;
+            $section->setEstimate($this);
         }
 
         return $this;
     }
 
-    public function removeLineItem(LineItem $lineItem): self
+    public function removeSection(Section $section): self
     {
-        if ($this->lineItems->removeElement($lineItem)) {
+        if ($this->sections->removeElement($section)) {
             // set the owning side to null (unless already changed)
-            if ($lineItem->getEstimate() === $this) {
-                $lineItem->setEstimate(null);
+            if ($section->getEstimate() === $this) {
+                $section->setEstimate(null);
             }
         }
 
-        return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getCreatedBy(): User
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param User $createdBy
-     *
-     * @return Estimate
-     */
-    public function setCreatedBy(User $createdBy): Estimate
-    {
-        $this->createdBy = $createdBy;
         return $this;
     }
 }

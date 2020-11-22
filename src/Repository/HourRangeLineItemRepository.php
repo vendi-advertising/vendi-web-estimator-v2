@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\LineItem;
+use App\Entity\HourRangeLineItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method LineItem|null find($id, $lockMode = null, $lockVersion = null)
- * @method LineItem|null findOneBy(array $criteria, array $orderBy = null)
- * @method LineItem[]    findAll()
- * @method LineItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method HourRangeLineItem|null find($id, $lockMode = null, $lockVersion = null)
+ * @method HourRangeLineItem|null findOneBy(array $criteria, array $orderBy = null)
+ * @method HourRangeLineItem[]    findAll()
+ * @method HourRangeLineItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LineItemRepository extends ServiceEntityRepository
+class HourRangeLineItemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LineItem::class);
+        parent::__construct($registry, HourRangeLineItem::class);
     }
 
     // /**
-    //  * @return LineItem[] Returns an array of LineItem objects
+    //  * @return HourRangeLineItem[] Returns an array of HourRangeLineItem objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class LineItemRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?LineItem
+    public function findOneBySomeField($value): ?HourRangeLineItem
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.exampleField = :val')

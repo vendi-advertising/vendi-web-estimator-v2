@@ -40,6 +40,7 @@ class EstimateController extends AbstractController
     public function createNew(Request $request, EntityManagerInterface $entityManager): Response
     {
         $estimate = new Estimate();
+        $estimate->setDefaultRate($this->getParameter('app.defaults.rate'));
         $form = $this->createForm(EstimateType::class, $estimate);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

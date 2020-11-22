@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UuidAsIdTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -12,13 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
-     */
-    private $id;
+    use UuidAsIdTrait;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
