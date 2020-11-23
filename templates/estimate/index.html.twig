@@ -6,7 +6,9 @@
     {% if estimates %}
         <ul>
             {% for estimate in estimates %}
-                <li><a href="">{{ estimate.name }}</a> ({{ estimate.createdBy.email }})</li>
+                <li>
+                    <a href="{{ path('estimate_view', {estimate: estimate.id}) }}">{{ estimate.name }}</a> ({{ estimate.createdBy.email }})
+                </li>
             {% endfor %}
         </ul>
     {% else %}

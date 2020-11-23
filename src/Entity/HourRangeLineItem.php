@@ -41,11 +41,6 @@ class HourRangeLineItem extends AbstractLineItem
         $this->section = $section;
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getHoursLow(): ?string
     {
         return $this->hoursLow;

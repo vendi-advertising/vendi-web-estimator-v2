@@ -55,4 +55,17 @@ class EstimateController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route("/estimate/{estimate}", name="estimate_view")
+     */
+    public function viewEstimate(Estimate $estimate): Response
+    {
+        return $this->render(
+            'estimate/entry.html.twig',
+            [
+                'estimate' => $estimate
+            ]
+        );
+    }
 }
