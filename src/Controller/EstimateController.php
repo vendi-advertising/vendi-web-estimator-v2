@@ -7,9 +7,12 @@ use App\Form\Type\EstimateType;
 use App\Repository\EstimateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class EstimateController extends AbstractController
 {
@@ -57,14 +60,45 @@ class EstimateController extends AbstractController
     }
 
     /**
-     * @Route("/estimate/{estimate}", name="estimate_view")
+     * @Route("/estimate/{estimate}/update", name="estimate_part_update")
      */
-    public function viewEstimate(Estimate $estimate): Response
+    public function estimatePartUpdate(Estimate $estimate, Request $request): Response
+    {
+        $key = $request->request->get('key');
+        $value = $request->get('value');
+
+        if (!$key) {
+            throw new \RuntimeException('Missing required parameter: key');
+        }
+
+        if (!$value) {
+            return new Response('Missing value', 400);
+        }
+
+        dd($key, $value);
+    }
+
+    /**
+     * @Route("/estimate/{estimate}/json", name="estimate_view_json", format="json")
+     */
+    public function estimateDetailsJson(Estimate $estimate, SerializerInterface $serializer): JsonResponse
+    {
+        $ret = JsonResponse::fromJsonString($serializer->serialize($estimate, 'json', ['groups' => ['estimate_read']]));
+        $ret->setEncodingOptions($ret->getEncodingOptions() | JSON_PRETTY_PRINT);
+        return $ret;
+    }
+
+    /**
+     * @Route("/estimate/{estimate}", name="estimate_view", format="html")
+     */
+    public function viewEstimate(Estimate $estimate, RouterInterface $router): Response
     {
         return $this->render(
             'estimate/entry.html.twig',
             [
-                'estimate' => $estimate
+                'estimate' => $estimate,
+                'estimateJsonRoute' => $router->generate('estimate_view_json', ['estimate' => $estimate->getId()]),
+                'estimatePartUpdateRoute' => $router->generate('estimate_part_update', ['estimate' => $estimate->getId()]),
             ]
         );
     }

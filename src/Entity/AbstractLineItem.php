@@ -6,6 +6,8 @@ use App\Entity\Traits\CreatedByTrait;
 use App\Entity\Traits\SortableTrait;
 use App\Entity\Traits\UuidAsIdTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity
@@ -21,6 +23,7 @@ abstract class AbstractLineItem
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"estimate_read"})
      */
     protected $label;
 
@@ -29,6 +32,15 @@ abstract class AbstractLineItem
      * @ORM\JoinColumn(nullable=false)
      */
     protected $section;
+
+    /**
+     * @Groups({"estimate_read"})
+     * @SerializedName("type")
+     */
+    public function getLineItemType(): string
+    {
+        return basename(static::class);
+    }
 
     public function getLabel(): ?string
     {

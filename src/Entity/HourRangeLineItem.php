@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\HourRangeLineItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=HourRangeLineItemRepository::class)
@@ -12,21 +13,25 @@ class HourRangeLineItem extends AbstractLineItem
 {
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @Groups({"estimate_read"})
      */
     private $hoursLow;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @Groups({"estimate_read"})
      */
     private $hoursHigh;
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @Groups({"estimate_read"})
      */
     private $staffQuantity;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     * @Groups({"estimate_read"})
      */
     private $rate;
 

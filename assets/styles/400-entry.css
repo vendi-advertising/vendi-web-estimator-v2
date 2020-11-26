@@ -1,0 +1,26 @@
+table.entry-table {
+    margin: 0 auto;
+}
+
+table.entry-table,
+table.entry-table tr,
+table.entry-table td,
+table.entry-table th {
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+table.entry-table th,
+table.entry-table td {
+    padding: 0.5rem;
+}
+
+table.entry-table input[type=text] {
+    font-size: 1.6rem;
+    /*width: 95%;*/
+}
+
+table.entry-table input[type=text].small {
+    font-size: 0.8rem;
+    /*width: 95%;*/
+}

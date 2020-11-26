@@ -3,73 +3,16 @@
 {% block title %}Estimate - Entry{% endblock %}
 
 {% block body %}
-    <style>
-        html {
-            font-size: 16px;
-        }
-
-        body {
-            font-size: 62.5%
-        }
-
-        body {
-            font-size: 1.6rem;
-        }
-
-        table,
-        table tr,
-        table td,
-        table th {
-            border: 1px solid #000;
-            border-collapse: collapse;
-        }
-
-        table th,
-        table td {
-            padding: 0.5rem;
-        }
-    </style>
-    <table>
-        <thead>
-        <tr>
-            <th scope="col"></th>
-            <th scope="col">Hours Low</th>
-            <th scope="col">Hours High</th>
-            <th scope="col">Staff</th>
-            <th scope="col">Rate</th>
-            <th scope="col">Fixed Cost</th>
-            <th scope="col">Total Low</th>
-            <th scope="col">Total High</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for section in estimate.sections %}
-            <tr>
-                <td colspan="8">{{ section.name }}</td>
-            </tr>
-            {% for item in section.lineItems %}
-                <tr>
-                    <td>{{ item.label }}</td>
-                    {% if item is hour_range %}
-                        <td>{{ item.hoursLow | hours }}</td>
-                        <td>{{ item.hoursHigh | hours }}</td>
-                        <td>{{ item.staffQuantity | hours }}</td>
-                        <td>{{ item.rate }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    {% else %}
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>{{ item.cost }}</td>
-                        <td></td>
-                        <td></td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-        {% endfor %}
-        </tbody>
-    </table>
+    <script>
+        window.APP = window.APP || {};
+        window.APP.estimateJsonRoute = '{{ estimateJsonRoute }}';
+        window.APP.estimatePartUpdateRoute = '{{ estimatePartUpdateRoute }}';
+    </script>
+    <div>
+        <label>
+            <input type="checkbox" name="enable-edit-mode" data-role="global-action" data-action="toggle-edit-mode"/>
+            <span>Enable edit mode</span>
+        </label>
+    </div>
+    <div id="entry-table-container"></div>
 {% endblock %}

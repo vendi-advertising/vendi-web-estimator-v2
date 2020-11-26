@@ -5,6 +5,7 @@ namespace App\Entity\Traits;
 use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait CreatedByTrait
 {
@@ -14,6 +15,7 @@ trait CreatedByTrait
      * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     * @Groups({"estimate_read"})
      */
     protected ?User $createdBy;
 
